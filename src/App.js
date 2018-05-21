@@ -57,6 +57,7 @@ class App extends Component {
 
     closeDialog = () => {
         this.setState({showDialog: false});
+        this.registerButton.focus();
     }
 
     render() {
@@ -67,8 +68,11 @@ class App extends Component {
                         <h1>Приходите на нашу конференцию!</h1>
                     </Header>
                     <RegisterBlock>
-                        <RegisterButton tabIndex="0" role="button" onClick={this.showDialog}>Хочу
-                            посетить</RegisterButton>
+                        <RegisterButton tabIndex="0" role="button"
+                                        onClick={this.showDialog}
+                                        innerRef={(button) => { this.registerButton = button; }} >
+                            Хочу посетить
+                        </RegisterButton>
                     </RegisterBlock>
                     <TextBlock>
                         <p>Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев

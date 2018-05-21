@@ -97,8 +97,23 @@ export class Dialog extends Component {
         }
     };
 
+    trapFocusOnFirstElement = (e) => {
+        if (e.shiftKey && e.keyCode === 9) {
+            e.preventDefault();
+            this.lastElem.focus();
+        }
+    };
+
+    trapFocusOnLastElement = (e) => {
+        if (e.keyCode === 9 && !e.shiftKey) {
+            e.preventDefault();
+            this.firstElem.focus();
+        }
+    };
+
     componentDidMount(){
         document.addEventListener('keydown', this.closeDialog, false);
+        this.firstElem.focus();
     }
     componentWillUnmount(){
         document.removeEventListener('keydown', this.closeDialog, false);
@@ -117,7 +132,8 @@ export class Dialog extends Component {
                     <form name="Форма регистрации">
                         <FieldBlock>
                             <Label htmlFor="firstName">Ваше имя <span aria-hidden="true">*</span></Label>
-                            <Input type="text" name="firstName" id="firstName" autoFocus required/>
+                            <Input type="text" name="firstName" id="firstName" required
+                                   onKeyDown={this.trapFocusOnFirstElement} innerRef={(input) => { this.firstElem = input; }}/>
                         </FieldBlock>
                         <FieldBlock>
                             <Label htmlFor="lastName">Ваша фамилия <span aria-hidden="true">*</span></Label>
@@ -129,7 +145,8 @@ export class Dialog extends Component {
                         </FieldBlock>
                         <ButtonBlock>
                             <Submit type="submit" name="button" id="enter" className="button" value="Зарегистрироваться"/>
-                            <Button type="button" name="cancelButton" id="cancelButton" value="Отмена"/>
+                            <Button type="button" name="cancelButton" id="cancelButton" value="Отмена"
+                                    onKeyDown={this.trapFocusOnLastElement} innerRef={(button) => { this.lastElem = button; }}/>
                         </ButtonBlock>
                     </form>
                 </DialogBody>
